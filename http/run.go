@@ -3,16 +3,33 @@ package http
 import (
 	"fmt"
 	"io"
-	// "net/http"
+	"log"
+	"net/http"
+	"net/url"
 	"os"
+
+	// "net/http"
+
+	"github.com/joho/godotenv"
 )
 
-var T_URL = os.Getenv("T_PARTY")
+var T_URL string
 
 type TRequest struct {
 }
 
-func PostTransactions(content io.Reader) {
+func init() {
+	err := godotenv.Load(".env")
+
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
+	T_URL = os.Getenv("T_PARTY")
+}
+
+func PostTransactions(content io.Reader, path string) {
 	fmt.Println("what is t_url ", T_URL)
-	// http.Post(T_URL, "application/json", content)
+	url, _ := url.JoinPath(T_URL, path)
+	fmt.Println("query url ", url)
+	http.Post(url, "application/json", content)
 }

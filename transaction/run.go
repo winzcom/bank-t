@@ -12,8 +12,6 @@ import (
 	"github.com/winzcom/bank-t/http"
 )
 
-const T_URL = ""
-
 type Transaction struct {
 	Amount     float32
 	Reference  string
@@ -23,6 +21,7 @@ type Transaction struct {
 var AC account.Accounts
 
 func init() {
+
 	if AC == nil {
 		AC = account.CreateAccounts()
 	}
@@ -43,7 +42,7 @@ func Debit(t Transaction) error {
 		return errors.New("Insufficient Balance")
 	}
 	AC[t.Account_id] -= bal
-	http.PostTransactions(b)
+	http.PostTransactions(b, "debit")
 	return nil
 }
 
@@ -54,7 +53,7 @@ func Credit(t Transaction) error {
 	bal := AC[t.Account_id]
 	bal += int(t.Amount)
 	AC[t.Account_id] = bal
-	http.PostTransactions(b)
+	http.PostTransactions(b, "credit")
 	db.Save(t)
 
 	return nil
