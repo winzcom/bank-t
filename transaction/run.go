@@ -16,15 +16,14 @@ type Transaction struct {
 	Amount     float32
 	Reference  string
 	Account_id string
+	Db         db.Storage
 }
 
 var AC account.Accounts
 
-func init() {
+var st db.Storage
 
-	if AC == nil {
-		AC = account.CreateAccounts()
-	}
+func init() {
 }
 
 func Debit(t Transaction) error {
@@ -32,6 +31,8 @@ func Debit(t Transaction) error {
 	b := new(bytes.Buffer)
 
 	enc := json.NewEncoder(b)
+
+	t.Db.Save(nil)
 
 	enc.Encode(t)
 	// check account to see if there is enough balance
@@ -41,7 +42,8 @@ func Debit(t Transaction) error {
 	if bal <= 0 {
 		return errors.New("Insufficient Balance")
 	}
-	AC[t.Account_id] -= bal
+	//AC[t.Account_id] -= bal
+	st.Save(nil)
 	http.PostTransactions(b, "debit")
 	return nil
 }
@@ -54,7 +56,6 @@ func Credit(t Transaction) error {
 	bal += int(t.Amount)
 	AC[t.Account_id] = bal
 	http.PostTransactions(b, "credit")
-	db.Save(t)
 
 	return nil
 }

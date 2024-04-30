@@ -5,10 +5,12 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/winzcom/bank-t/db"
 	"github.com/winzcom/bank-t/transaction"
 )
 
 func main() {
+	db := db.GetStorage()
 	r := gin.Default()
 	r.GET("/welcome", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
@@ -28,6 +30,7 @@ func main() {
 		err := transaction.Debit(transaction.Transaction{
 			Amount:     requestBody.Amount,
 			Account_id: "abc",
+			Db:         db,
 		})
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{

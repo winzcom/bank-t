@@ -1,7 +1,13 @@
 package db
 
-var store []interface{}
+type Storage struct{}
 
-func Save(t interface{}) {
-	store = append(store, t)
+var tkl string
+
+func (s Storage) Save(t interface{}) {
+
+}
+
+func GetStorage() Storage {
+	return Storage{}
 }

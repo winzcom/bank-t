@@ -15,9 +15,6 @@ import (
 
 var T_URL string
 
-type TRequest struct {
-}
-
 func init() {
 	err := godotenv.Load(".env")
 
