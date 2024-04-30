@@ -6,10 +6,10 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/winz/bank-t/account"
-	_ "github.com/winz/bank-t/account"
-	"github.com/winz/bank-t/db"
-	"github.com/winz/bank-t/http"
+	"github.com/winzcom/bank-t/account"
+	_ "github.com/winzcom/bank-t/account"
+	"github.com/winzcom/bank-t/db"
+	"github.com/winzcom/bank-t/http"
 )
 
 const T_URL = ""

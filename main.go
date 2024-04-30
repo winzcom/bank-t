@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/winz/bank-t/transaction"
+	"github.com/winzcom/bank-t/transaction"
 )
 
 func main() {
